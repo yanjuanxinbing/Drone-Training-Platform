@@ -1,0 +1,103 @@
+.section {
+  background: var(--paper);
+  border-top: 1px solid var(--ink);
+  border-bottom: 1px solid var(--ink);
+  padding-block: clamp(64px, 9vw, 144px);
+}
+
+.container {
+  width: 100%;
+  max-width: var(--grid-max-width);
+  margin-inline: auto;
+  padding-inline: var(--grid-margin);
+}
+
+.eyebrowRow {
+  display: grid;
+  grid-template-columns: 80px 1fr 1fr 80px;
+  align-items: center;
+  gap: var(--grid-gutter);
+  padding-bottom: var(--space-3);
+  margin-bottom: var(--space-6);
+  border-bottom: 1px solid var(--ink);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ash-500);
+}
+
+@media (max-width: 900px) {
+  .eyebrowRow { grid-template-columns: 64px 1fr; }
+  .eyebrowRow > *:nth-child(3), .eyebrowRow > *:nth-child(4) { display: none; }
+}
+
+.strip {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0;
+  border-left: 1px solid var(--ink);
+}
+
+.cell {
+  padding: var(--space-4) var(--space-3);
+  border-right: 1px solid var(--ink);
+  border-top: 1px solid var(--ink);
+  border-bottom: 1px solid var(--ink);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  transition: background var(--dur-fast) var(--ease-bauhaus);
+}
+.cell:hover { background: var(--ash-50); }
+
+@media (max-width: 1100px) { .strip { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 700px)  { .strip { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 480px)  { .strip { grid-template-columns: 1fr; } }
+
+.value {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  font-family: var(--font-display);
+  font-feature-settings: "tnum" 1, "zero" 1;
+  letter-spacing: -0.04em;
+}
+
+.numeral {
+  font-size: clamp(40px, 5.4vw, 80px);
+  line-height: 1;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.suffix {
+  font-size: clamp(20px, 2vw, 32px);
+  font-weight: 500;
+  color: var(--walnut);
+}
+
+.label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ash-500);
+  line-height: 1.5;
+  max-width: 22ch;
+}
+
+.tickRow {
+  display: flex;
+  gap: 4px;
+  margin-top: auto;
+}
+.tickRow span {
+  width: 18px;
+  height: 1px;
+  background: var(--ink);
+  display: inline-block;
+}
+.tickRow span:nth-child(2) { background: var(--ash-500); }
+.tickRow span:nth-child(3) { background: var(--ash-300); }
+.tickRow span:nth-child(4) { background: var(--ash-100); }

@@ -1,0 +1,15 @@
+/.vscode
+/__pycache__
+/1.py
+/keyvals.py
+/build
+/test
+/airsim/__pycache__
+/1.json
+/t.py
+/t1.py
+/dynamic_drone_route.html
+/db/img
+/db/data
+/views/__pycache__
+/views/pages/__pycache__

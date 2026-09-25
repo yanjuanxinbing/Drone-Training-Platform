@@ -1,0 +1,82 @@
+/* =========================================================================
+ * Drone Training Platform — Design Tokens
+ * Bauhaus minimalism: cold gray, pure white, natural wood accents.
+ * Strict Swiss grid: 12 columns, 24px gutter, 8px baseline.
+ * ========================================================================= */
+
+:root {
+  /* ── Color ──────────────────────────────────────────────────────────── */
+  --ink: #1A1A18;          /* 主黑 */
+  --paper: #FFFFFF;        /* 纯白 */
+  --ash-900: #2A2A28;
+  --ash-700: #4A4A47;
+  --ash-500: #6B6B68;      /* 冷灰中调 */
+  --ash-300: #B5B5B1;
+  --ash-100: #E8E8E5;      /* 冷灰浅调 */
+  --ash-50:  #F4F4F1;
+  --birch:   #C9A47A;      /* 天然桦木 */
+  --birch-soft: #D9BD9B;
+  --walnut:  #8B6F4E;      /* 深胡桃木 */
+  --signal:  #D94F1E;      /* 单一警告红（极少使用） */
+
+  /* ── Typography ─────────────────────────────────────────────────────── */
+  --font-sans: "Inter Tight", "Helvetica Neue", Helvetica, Arial, system-ui, -apple-system, sans-serif;
+  --font-mono: "JetBrains Mono", "SF Mono", Menlo, monospace;
+  --font-display: "Inter Tight", "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+  /* Modular scale (1.250 — Major Third) */
+  --fs-xxs: 11px;
+  --fs-xs:  13px;
+  --fs-sm:  15px;
+  --fs-md:  17px;
+  --fs-lg:  22px;
+  --fs-xl:  32px;
+  --fs-2xl: 48px;
+  --fs-3xl: 72px;
+  --fs-4xl: 112px;
+  --fs-display: clamp(56px, 11vw, 168px);
+
+  --lh-tight:  0.94;
+  --lh-snug:   1.04;
+  --lh-normal: 1.35;
+  --lh-loose:  1.6;
+
+  --letter-tight: -0.04em;
+  --letter-flat:  0;
+  --letter-wide:  0.06em;
+  --letter-mono:  0.04em;
+
+  /* ── Grid ───────────────────────────────────────────────────────────── */
+  --grid-cols: 12;
+  --grid-gutter: 24px;
+  --grid-margin: clamp(20px, 4vw, 56px);
+  --grid-max-width: 1680px;
+
+  /* Baseline rhythm — 8px */
+  --baseline: 8px;
+  --space-1: 8px;
+  --space-2: 16px;
+  --space-3: 24px;
+  --space-4: 32px;
+  --space-5: 48px;
+  --space-6: 64px;
+  --space-8: 96px;
+  --space-10: 128px;
+  --space-12: 192px;
+
+  /* ── Motion ─────────────────────────────────────────────────────────── */
+  --ease-bauhaus: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --ease-precise: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-fast: 180ms;
+  --dur-mid:  320ms;
+  --dur-slow: 720ms;
+
+  /* ── Borders ────────────────────────────────────────────────────────── */
+  --hairline: 1px;
+  --rule: 2px;
+
+  /* ── Z-index ────────────────────────────────────────────────────────── */
+  --z-header: 100;
+  --z-overlay: 200;
+  --z-modal: 300;
+}

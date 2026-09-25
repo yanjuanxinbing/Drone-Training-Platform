@@ -1,0 +1,11 @@
+.agreeRow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  color: var(--ash-700);
+  cursor: pointer;
+}
+.agreeRow input { accent-color: var(--ink); }

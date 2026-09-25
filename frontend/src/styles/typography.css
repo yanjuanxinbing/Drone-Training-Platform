@@ -1,0 +1,62 @@
+/* Typography utilities — apply with class names. */
+
+.t-display {
+  font-family: var(--font-display);
+  font-size: var(--fs-display);
+  line-height: var(--lh-tight);
+  letter-spacing: var(--letter-tight);
+  font-weight: 600;
+}
+
+.t-h1 {
+  font-family: var(--font-display);
+  font-size: clamp(40px, 6vw, var(--fs-3xl));
+  line-height: var(--lh-snug);
+  letter-spacing: var(--letter-tight);
+  font-weight: 600;
+}
+
+.t-h2 {
+  font-family: var(--font-display);
+  font-size: clamp(28px, 3.4vw, var(--fs-2xl));
+  line-height: var(--lh-snug);
+  letter-spacing: var(--letter-tight);
+  font-weight: 500;
+}
+
+.t-h3 {
+  font-family: var(--font-display);
+  font-size: var(--fs-xl);
+  line-height: var(--lh-snug);
+  letter-spacing: var(--letter-flat);
+  font-weight: 500;
+}
+
+.t-body {
+  font-size: var(--fs-md);
+  line-height: var(--lh-normal);
+  font-weight: 400;
+}
+
+.t-meta {
+  font-size: var(--fs-xs);
+  line-height: var(--lh-normal);
+  letter-spacing: var(--letter-mono);
+  color: var(--ash-500);
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+.t-eyebrow {
+  font-family: var(--font-mono);
+  font-size: var(--fs-xxs);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-weight: 500;
+  color: var(--ash-500);
+}
+
+.t-mono {
+  font-family: var(--font-mono);
+  font-feature-settings: "tnum" 1, "zero" 1;
+}
