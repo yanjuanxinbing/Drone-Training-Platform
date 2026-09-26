@@ -1,94 +1,57 @@
-# ===== Python bytecache & compiled artifacts =====
+# ============================================================================
+# Drone Training Platform — backend ignore rules
+#
+# Self-contained: every Python / FastAPI / ProjectAirSim pattern the backend
+# needs to stay clean lives here, so this directory works correctly even
+# after a future cleanup of the root .gitignore.
+#
+# The root .gitignore also contains equivalent rules (currently duplicated
+# for safety) so a fresh checkout stays clean either way.
+# ============================================================================
+
+# ----- Python bytecache & compiled artifacts -----
 __pycache__/
 *.py[cod]
 *$py.class
 *.so
-.Python
 *.pyo
 
-# ===== Distribution / packaging =====
+# ----- Distribution / packaging -----
 *.egg-info/
 *.egg
 build/
 dist/
-downloads/
 *.whl
 *.spec
-pip-log.txt
-pip-delete-this-directory.txt
-MANIFEST
 
-# ===== Virtual environments =====
+# ----- Virtual environments -----
 .venv/
 venv/
 env/
 ENV/
-env.bak/
-venv.bak/
 .python-version
 
-# ===== Environment variables & secrets (pydantic-settings loads .env) =====
-.env
-.env.*
-!.env.example
-*.env.local
-*.env.*.local
-.env.bak
-.envrc
-
-# ===== IDE / editor =====
-.idea/
-*.iml
-*.iws
-*.ipr
-.vscode/
-!.vscode/launch.json
-!.vscode/extensions.json
-*.swp
-*.swo
-*~
-.DS_Store
-Thumbs.db
-Desktop.ini
-ehthumbs.db
-
-# ===== Testing, type-checking & linting caches =====
+# ----- Testing, type-checking & linting caches -----
 .pytest_cache/
 .coverage
 .coverage.*
 htmlcov/
 coverage.xml
-.tox/
 .mypy_cache/
 .ruff_cache/
 .pyright/
-.pyre/
 
-# ===== Logs & runtime files =====
-*.log
-logs/
-log/
-*.pid
-*.pid.lock
-pids/
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-
-# ===== Uvicorn / FastAPI =====
+# ----- Uvicorn / FastAPI -----
 .uvicorn/
 uvicorn.log
 
-# ===== Local data, databases & caches =====
+# ----- Local databases -----
 *.db
 *.sqlite3
 *.sqlite
 instance/
-db/local/
-.cache/
-*.pidfile
 
-# ===== ProjectAirSim / UE5 simulation artifacts =====
+# ----- ProjectAirSim / UE5 simulation artifacts -----
 *.ue4save
 *.pak
 Saved/
@@ -100,24 +63,22 @@ DerivedDataCache/
 recordings/
 captures/
 
-# ===== Map / geo caches (folium, geopy) =====
-.mapbox_token
+# ----- Map / geo caches (folium, geopy) -----
 folium_cache/
 
-# ===== Generated docs =====
-docs/_build/
-site/
+# ----- Logs (mirrored at root for self-containment) -----
+*.log
+logs/
+log/
 
-# ===== Jupyter =====
+# ----- Jupyter -----
 .ipynb_checkpoints/
-profile_default/
-ipython_config.py
 
-# ===== Misc OS / temp =====
-*.tmp
-*.bak
-*.swp
-*.swo
+# ----- Cross-project runtime data mounted by FastAPI (/media etc.) -----
+# /db/img and /db/data are runtime-mounts under the backend, not source.
+/db/img
+/db/data
+
+# ----- Tooling caches that may surface inside /backend -----
 .cache/
-tmp/
-temp/
+.turbo/
