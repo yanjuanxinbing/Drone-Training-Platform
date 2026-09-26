@@ -1,15 +1,47 @@
-/.vscode
-/__pycache__
-/1.py
-/keyvals.py
-/build
-/test
-/airsim/__pycache__
-/1.json
-/t.py
-/t1.py
-/dynamic_drone_route.html
+# ============================================================================
+# Drone Training Platform — root ignore rules
+#
+# Subprojects manage their own language/tool ignores:
+#   frontend/.gitignore  → Next.js, TypeScript, Vercel
+#   backend/.gitignore   → Python, FastAPI, ProjectAirSim artifacts
+#
+# This file only covers cross-cutting concerns and root-level artifacts,
+# so the same pattern is not duplicated three times.
+# ============================================================================
+
+# ----- Runtime data: user uploads + persisted state -----
+# /db/img is mounted by FastAPI as /media (avatars); /db/data holds runtime
+# state (scenario progress, etc.). These regenerate at runtime.
 /db/img
 /db/data
-/views/__pycache__
-/views/pages/__pycache__
+
+# ----- Root-level logs -----
+# Backend logs, ProjectAirSim client logs, etc. Anything *.log at the repo
+# root. (Log files inside frontend/ or backend/ are also handled by their
+# own .gitignore.)
+/*.log
+
+# ----- Root-level secrets -----
+# Real env files must never be committed. Share a template via /.env.example
+# instead. frontend/.env*.local and backend/.env are handled by their own
+# .gitignore files.
+/.env
+/.env.*
+!/.env.example
+
+# ----- Root-level scratch scripts -----
+# Real backend source lives under /backend/. Anything *.py at the repo root
+# is a stray / scratch file. Move intentional scripts into /backend instead.
+/*.py
+
+# ----- OS / shell clutter (matches at every level below the repo root) -----
+.DS_Store
+Thumbs.db
+Desktop.ini
+ehthumbs.db
+$RECYCLE.BIN/
+
+# ----- Tooling caches that may surface at the repo root -----
+.cache/
+.turbo/
+.serverless/

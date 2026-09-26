@@ -13,6 +13,15 @@ from fastapi.staticfiles import StaticFiles
 
 from .api import auth, routes, scenarios, sim, users
 from .core.settings import settings
+from .domain.drone_controller import drone_controller
+
+# Configure the ProjectAirSim singleton with settings-derived defaults.
+drone_controller.host = settings.projectairsim_host
+drone_controller.port_topics = settings.projectairsim_port_topics
+drone_controller.port_services = settings.projectairsim_port_services
+drone_controller.scene_config = settings.projectairsim_scene
+drone_controller.drone_name = settings.projectairsim_drone
+drone_controller.camera_id = settings.projectairsim_camera
 
 app = FastAPI(
     title=settings.project_name,
@@ -20,7 +29,8 @@ app = FastAPI(
     description=(
         "Multi-scenario drone training platform. Provides auth, six canonical "
         "training scenarios with per-user progress tracking, A* path planning "
-        "with no-fly-zone avoidance, and an optional AirSim live-stream channel."
+        "with no-fly-zone avoidance, and an optional ProjectAirSim (UE 5.7) "
+        "live-stream channel."
     ),
 )
 

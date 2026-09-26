@@ -25,9 +25,15 @@ class Settings(BaseSettings):
         "http://localhost:3001",
     ]
 
-    # AirSim
-    airsim_ip: str = "127.0.0.1"
-    airsim_port: int = 41451
+    # ProjectAirSim (UE 5.7)
+    airsim_ip: str = "127.0.0.1"               # legacy alias
+    airsim_port: int = 8989                    # legacy alias → port_topics
+    projectairsim_host: str = "127.0.0.1"
+    projectairsim_port_topics: int = 8989
+    projectairsim_port_services: int = 8990
+    projectairsim_scene: str = "scene_basic_drone.jsonc"
+    projectairsim_drone: str = "Drone1"
+    projectairsim_camera: str = "front_center"
 
     # Map cache
     nfz_cache_ttl_seconds: int = 600

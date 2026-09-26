@@ -1,0 +1,472 @@
+.shell {
+  position: fixed;
+  inset: 0;
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--font-sans);
+  z-index: var(--z-overlay);
+}
+
+.topbar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--ash-700);
+  background: rgba(26, 26, 24, 0.78);
+  backdrop-filter: blur(8px);
+}
+
+.topbarLeft, .topbarRight {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--paper);
+  transition: opacity var(--dur-fast) var(--ease-bauhaus);
+}
+.back:hover { opacity: 0.7; }
+
+.divider { width: 1px; height: 14px; background: var(--ash-700); }
+
+.scenarioId { color: var(--sc-accent); }
+.scenarioMeta { color: var(--ash-300); }
+
+.btn, .btnPrimary {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding: 9px 14px;
+  background: transparent;
+  color: var(--paper);
+  border: 1px solid var(--ash-700);
+  transition: all var(--dur-fast) var(--ease-bauhaus);
+  cursor: pointer;
+}
+.btn:hover { border-color: var(--paper); }
+.btnPrimary {
+  background: var(--sc-accent, var(--birch));
+  color: var(--ink);
+  border-color: transparent;
+}
+.btnPrimary:hover { filter: brightness(0.92); }
+
+.stage {
+  position: absolute;
+  top: 56px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+}
+
+/* Primary live-stream viewport — fullscreen canvas painted with JPEG frames */
+.viewport {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--ink);
+  object-fit: contain;
+  display: block;
+}
+
+/* ── Standby overlay (AirSim unreachable) ────────────────────────── */
+.standbyOverlay {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(180deg, #1A1A18 0%, #0E0E0C 100%);
+  z-index: 6;
+}
+
+.standbyCard {
+  width: min(640px, 88vw);
+  padding: clamp(28px, 4vw, 48px);
+  background: var(--ash-900);
+  border: 1px solid var(--ash-700);
+  color: var(--paper);
+  position: relative;
+  overflow: hidden;
+}
+
+.standbyCard::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 30% 20%, rgba(201, 164, 122, 0.08), transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(107, 107, 104, 0.12), transparent 50%);
+  pointer-events: none;
+}
+
+.standbyPulse {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--signal, #D94F1E);
+  animation: pulse 1.8s cubic-bezier(0.2, 0.8, 0.2, 1) infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 0.4; transform: scale(0.85); }
+  50% { opacity: 1; transform: scale(1.15); }
+}
+
+.standbyLabel {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--signal, #D94F1E);
+}
+
+.standbyTitle {
+  font-family: var(--font-display);
+  font-size: clamp(32px, 4vw, 56px);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  margin: 8px 0 16px;
+}
+
+.standbyCopy {
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--ash-300);
+  max-width: 56ch;
+  margin-bottom: 24px;
+}
+
+.standbyCopy code {
+  font-family: var(--font-mono);
+  background: rgba(255, 255, 255, 0.06);
+  padding: 1px 6px;
+  color: var(--birch);
+}
+
+.standbyGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  border-top: 1px solid var(--ash-700);
+  border-bottom: 1px solid var(--ash-700);
+  margin-bottom: 24px;
+}
+@media (max-width: 700px) {
+  .standbyGrid { grid-template-columns: 1fr; }
+}
+
+.standbyHint {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  border-right: 1px solid var(--ash-700);
+}
+.standbyHint:last-child { border-right: 0; }
+@media (max-width: 700px) {
+  .standbyHint { border-right: 0; border-bottom: 1px solid var(--ash-700); }
+  .standbyHint:last-child { border-bottom: 0; }
+}
+
+.standbyHintLabel {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ash-300);
+}
+
+.standbyHintCode {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--paper);
+  word-break: break-all;
+}
+
+.standbyActions {
+  display: flex;
+  gap: 12px;
+}
+
+/* ── HUD ─────────────────────────────────────────────────────────── */
+.hudTop, .hudBottom {
+  position: absolute;
+  left: 24px;
+  right: 24px;
+  display: flex;
+  gap: 12px;
+  z-index: 5;
+  pointer-events: none;
+}
+.hudTop { top: 24px; }
+.hudBottom { bottom: 24px; }
+
+.hudCard {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 12px 16px;
+  background: rgba(26, 26, 24, 0.7);
+  backdrop-filter: blur(6px);
+  border: 1px solid var(--ash-700);
+  min-width: 120px;
+  font-family: var(--font-mono);
+}
+
+.hudLabel {
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  color: var(--ash-300);
+  text-transform: uppercase;
+}
+
+.hudValue {
+  font-family: var(--font-display);
+  font-size: 28px;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  font-weight: 600;
+  color: var(--paper);
+}
+
+.hudUnit {
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  color: var(--ash-300);
+  text-transform: uppercase;
+}
+
+/* ── Objective cards ────────────────────────────────────────────── */
+.objectiveCard {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 12px 16px;
+  background: rgba(26, 26, 24, 0.7);
+  backdrop-filter: blur(6px);
+  border: 1px solid var(--ash-700);
+  min-width: 240px;
+  flex: 1;
+  font-family: var(--font-mono);
+  pointer-events: none;
+}
+
+.objectiveHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.objectiveNum {
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  color: var(--sc-accent);
+  font-weight: 500;
+}
+
+.objectiveStatus {
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  color: var(--ash-300);
+}
+
+.objectiveCard[data-status="active"] .objectiveStatus { color: var(--sc-accent); }
+.objectiveCard[data-status="satisfied"] .objectiveStatus { color: #4ECDC4; }
+.objectiveCard[data-status="failed"] .objectiveStatus { color: var(--signal, #D94F1E); }
+.objectiveCard[data-status="satisfied"] { border-color: #4ECDC4; }
+
+.objectiveLabel {
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: var(--paper);
+}
+
+.progressTrack {
+  width: 100%;
+  height: 2px;
+  background: var(--ash-700);
+  margin-top: 4px;
+  position: relative;
+  overflow: hidden;
+}
+
+.progressFill {
+  position: absolute;
+  inset: 0;
+  background: var(--sc-accent, var(--birch));
+  transform-origin: left center;
+  transition: width 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+/* ── Score card ─────────────────────────────────────────────────── */
+.scoreCard {
+  position: absolute;
+  right: 24px;
+  top: 96px;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  background: rgba(26, 26, 24, 0.78);
+  backdrop-filter: blur(6px);
+  border: 1px solid var(--ash-700);
+  min-width: 200px;
+  font-family: var(--font-mono);
+  pointer-events: none;
+}
+
+.scoreRow {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: baseline;
+  padding: 12px 16px;
+  gap: 12px;
+  border-bottom: 1px solid var(--ash-700);
+}
+.scoreRow:last-child { border-bottom: 0; }
+
+.scoreLabel {
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  color: var(--ash-300);
+  text-transform: uppercase;
+}
+
+.scoreValue {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--sc-accent);
+}
+
+/* ── Controls panel ─────────────────────────────────────────────── */
+.controls {
+  position: absolute;
+  right: 24px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 14px;
+  background: rgba(26, 26, 24, 0.72);
+  border: 1px solid var(--ash-700);
+  backdrop-filter: blur(6px);
+  z-index: 5;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.controlsLabel {
+  color: var(--sc-accent, var(--birch));
+  padding-bottom: 4px;
+  border-bottom: 1px solid var(--ash-700);
+  margin-bottom: 4px;
+}
+
+.controlsRow {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--ash-300);
+}
+.controlsRow kbd {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 22px;
+  height: 22px;
+  padding: 0 6px;
+  background: var(--ash-900);
+  border: 1px solid var(--ash-700);
+  color: var(--paper);
+  font-family: var(--font-mono);
+  font-size: 10px;
+}
+
+.controlsDivider { width: 8px; }
+
+/* ── Launch overlay (used when scenario slug is invalid) ────────── */
+.launchOverlay {
+  position: absolute;
+  inset: 0;
+  z-index: 8;
+  display: grid;
+  place-items: center;
+  background: rgba(26, 26, 24, 0.78);
+  backdrop-filter: blur(12px);
+}
+
+.launchCard {
+  width: min(560px, 90vw);
+  padding: 32px;
+  background: var(--paper);
+  color: var(--ink);
+  border: 1px solid var(--ink);
+  text-align: left;
+}
+
+.launchTitle {
+  font-family: var(--font-display);
+  font-size: clamp(28px, 4vw, 48px);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  margin-bottom: 14px;
+}
+
+.launchCopy {
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--ash-700);
+  margin-bottom: 24px;
+}
+
+.launchBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 500;
+  background: var(--ink);
+  color: var(--paper);
+  padding: 14px 24px;
+  border-radius: 0;
+  transition: transform var(--dur-fast) var(--ease-bauhaus);
+}
+.launchBtn:hover { transform: translateX(2px); background: var(--sc-accent, var(--walnut)); color: var(--ink); }
+.launchArrow { font-size: 16px; }
+
+@media (max-width: 768px) {
+  .controls { display: none; }
+  .hudCard { min-width: 90px; padding: 8px 12px; }
+  .hudValue { font-size: 22px; }
+  .hudTop, .hudBottom { left: 12px; right: 12px; }
+  .scoreCard { display: none; }
+}

@@ -13,3 +13,6 @@ geopy==2.4.1
 eviltransform==0.0.7
 httpx==0.28.1
 email-validator==2.2.0
+projectairsim>=1.0
+numpy
+Pillow
