@@ -5,48 +5,95 @@
   color: var(--paper);
   font-family: var(--font-sans);
   z-index: var(--z-overlay);
+  overflow: hidden;
 }
 
-.topbar {
+/* Fullscreen UE4.27 Pixel Streaming iframe — no topbar offset, no chrome.
+   Matches the layout of static/index.html. */
+.streamFrame {
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 10;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 16px 24px;
-  border-bottom: 1px solid var(--ash-700);
-  background: rgba(26, 26, 24, 0.78);
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: var(--ink);
+  display: block;
+  pointer-events: auto;
+}
+.streamPassThrough {
+  /* Mirrors .stream-ready #ps-frame in static/style.css. */
+  pointer-events: none;
+}
+
+/* ── Floating back button (top-left) ─────────────────────────────
+   Mirrors #back-fab in static/style.css. */
+.backFab {
+  position: fixed;
+  top: 12px;
+  left: 12px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+  z-index: 30;
   backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition: background 0.15s;
+}
+.backFab:hover { background: rgba(0, 0, 0, 0.75); }
+
+/* ── Floating status badges (bottom-left) ──────────────────────
+   Mirrors #hud / #conn-badge / #gamepad-badge in static/. */
+.hud {
+  position: fixed;
+  left: 12px;
+  bottom: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  z-index: 10;
+  pointer-events: none;
 }
 
-.topbarLeft, .topbarRight {
-  display: inline-flex;
-  align-items: center;
-  gap: 14px;
-  font-family: var(--font-mono);
+.badge {
+  background: rgba(0, 0, 0, 0.55);
+  color: #9e9e9e;
+  padding: 2px 8px;
+  border-radius: 4px;
   font-size: 11px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
+  width: fit-content;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
 }
+.badgeOk      { color: #69f0ae; }
+.badgeFlying  { color: #40c4ff; }
+.badgeMuted   { color: #9e9e9e; }
+.badgeErr     { color: #ff5252; }
 
-.back {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  color: var(--paper);
-  transition: opacity var(--dur-fast) var(--ease-bauhaus);
+.gpBadge {
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  background: rgba(0, 0, 0, 0.55);
+  color: #9e9e9e;
+  white-space: nowrap;
+  max-width: 220px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
 }
-.back:hover { opacity: 0.7; }
+.gpBadgeOff { color: #9e9e9e; }
+.gpBadgeOn  { background: #43a047; color: #fff; }
 
-.divider { width: 1px; height: 14px; background: var(--ash-700); }
-
-.scenarioId { color: var(--sc-accent); }
-.scenarioMeta { color: var(--ash-300); }
-
-.btn, .btnPrimary {
+/* ── Buttons (kept for the standby overlay actions) ──────────── */
+.btn {
   font-family: var(--font-mono);
   font-size: 11px;
   letter-spacing: 0.18em;
@@ -59,32 +106,6 @@
   cursor: pointer;
 }
 .btn:hover { border-color: var(--paper); }
-.btnPrimary {
-  background: var(--sc-accent, var(--birch));
-  color: var(--ink);
-  border-color: transparent;
-}
-.btnPrimary:hover { filter: brightness(0.92); }
-
-.stage {
-  position: absolute;
-  top: 56px;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  overflow: hidden;
-}
-
-/* Primary live-stream viewport — fullscreen canvas painted with JPEG frames */
-.viewport {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  background: var(--ink);
-  object-fit: contain;
-  display: block;
-}
 
 /* ── Standby overlay (AirSim unreachable) ────────────────────────── */
 .standbyOverlay {
@@ -208,209 +229,6 @@
   gap: 12px;
 }
 
-/* ── HUD ─────────────────────────────────────────────────────────── */
-.hudTop, .hudBottom {
-  position: absolute;
-  left: 24px;
-  right: 24px;
-  display: flex;
-  gap: 12px;
-  z-index: 5;
-  pointer-events: none;
-}
-.hudTop { top: 24px; }
-.hudBottom { bottom: 24px; }
-
-.hudCard {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  padding: 12px 16px;
-  background: rgba(26, 26, 24, 0.7);
-  backdrop-filter: blur(6px);
-  border: 1px solid var(--ash-700);
-  min-width: 120px;
-  font-family: var(--font-mono);
-}
-
-.hudLabel {
-  font-size: 10px;
-  letter-spacing: 0.22em;
-  color: var(--ash-300);
-  text-transform: uppercase;
-}
-
-.hudValue {
-  font-family: var(--font-display);
-  font-size: 28px;
-  line-height: 1;
-  letter-spacing: -0.02em;
-  font-weight: 600;
-  color: var(--paper);
-}
-
-.hudUnit {
-  font-size: 10px;
-  letter-spacing: 0.18em;
-  color: var(--ash-300);
-  text-transform: uppercase;
-}
-
-/* ── Objective cards ────────────────────────────────────────────── */
-.objectiveCard {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  padding: 12px 16px;
-  background: rgba(26, 26, 24, 0.7);
-  backdrop-filter: blur(6px);
-  border: 1px solid var(--ash-700);
-  min-width: 240px;
-  flex: 1;
-  font-family: var(--font-mono);
-  pointer-events: none;
-}
-
-.objectiveHead {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-}
-
-.objectiveNum {
-  font-size: 11px;
-  letter-spacing: 0.22em;
-  color: var(--sc-accent);
-  font-weight: 500;
-}
-
-.objectiveStatus {
-  font-size: 10px;
-  letter-spacing: 0.22em;
-  color: var(--ash-300);
-}
-
-.objectiveCard[data-status="active"] .objectiveStatus { color: var(--sc-accent); }
-.objectiveCard[data-status="satisfied"] .objectiveStatus { color: #4ECDC4; }
-.objectiveCard[data-status="failed"] .objectiveStatus { color: var(--signal, #D94F1E); }
-.objectiveCard[data-status="satisfied"] { border-color: #4ECDC4; }
-
-.objectiveLabel {
-  font-family: var(--font-display);
-  font-size: 14px;
-  font-weight: 500;
-  letter-spacing: -0.01em;
-  color: var(--paper);
-}
-
-.progressTrack {
-  width: 100%;
-  height: 2px;
-  background: var(--ash-700);
-  margin-top: 4px;
-  position: relative;
-  overflow: hidden;
-}
-
-.progressFill {
-  position: absolute;
-  inset: 0;
-  background: var(--sc-accent, var(--birch));
-  transform-origin: left center;
-  transition: width 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
-}
-
-/* ── Score card ─────────────────────────────────────────────────── */
-.scoreCard {
-  position: absolute;
-  right: 24px;
-  top: 96px;
-  z-index: 5;
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-  background: rgba(26, 26, 24, 0.78);
-  backdrop-filter: blur(6px);
-  border: 1px solid var(--ash-700);
-  min-width: 200px;
-  font-family: var(--font-mono);
-  pointer-events: none;
-}
-
-.scoreRow {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  align-items: baseline;
-  padding: 12px 16px;
-  gap: 12px;
-  border-bottom: 1px solid var(--ash-700);
-}
-.scoreRow:last-child { border-bottom: 0; }
-
-.scoreLabel {
-  font-size: 10px;
-  letter-spacing: 0.22em;
-  color: var(--ash-300);
-  text-transform: uppercase;
-}
-
-.scoreValue {
-  font-family: var(--font-display);
-  font-size: 22px;
-  font-weight: 600;
-  letter-spacing: -0.02em;
-  color: var(--sc-accent);
-}
-
-/* ── Controls panel ─────────────────────────────────────────────── */
-.controls {
-  position: absolute;
-  right: 24px;
-  top: 50%;
-  transform: translateY(-50%);
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  padding: 14px;
-  background: rgba(26, 26, 24, 0.72);
-  border: 1px solid var(--ash-700);
-  backdrop-filter: blur(6px);
-  z-index: 5;
-  font-family: var(--font-mono);
-  font-size: 10px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-}
-
-.controlsLabel {
-  color: var(--sc-accent, var(--birch));
-  padding-bottom: 4px;
-  border-bottom: 1px solid var(--ash-700);
-  margin-bottom: 4px;
-}
-
-.controlsRow {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  color: var(--ash-300);
-}
-.controlsRow kbd {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 22px;
-  height: 22px;
-  padding: 0 6px;
-  background: var(--ash-900);
-  border: 1px solid var(--ash-700);
-  color: var(--paper);
-  font-family: var(--font-mono);
-  font-size: 10px;
-}
-
-.controlsDivider { width: 8px; }
-
 /* ── Launch overlay (used when scenario slug is invalid) ────────── */
 .launchOverlay {
   position: absolute;
@@ -463,10 +281,92 @@
 .launchBtn:hover { transform: translateX(2px); background: var(--sc-accent, var(--walnut)); color: var(--ink); }
 .launchArrow { font-size: 16px; }
 
-@media (max-width: 768px) {
-  .controls { display: none; }
-  .hudCard { min-width: 90px; padding: 8px 12px; }
-  .hudValue { font-size: 22px; }
-  .hudTop, .hudBottom { left: 12px; right: 12px; }
-  .scoreCard { display: none; }
+/* ── Mission panel (top-right) ─────────────────────────────────────
+   Sits above the Pixel Streaming iframe but never intercepts pointer
+   events, so the operator still controls the view underneath. Only the
+   "view result" button opts back in. */
+.missionPanel {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  width: min(300px, 38vw);
+  background: rgba(0, 0, 0, 0.62);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  padding: 12px 14px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--paper);
+  pointer-events: none;
+  z-index: var(--z-overlay);
+  backdrop-filter: blur(2px);
 }
+
+.missionHeader {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  padding-bottom: 8px;
+  margin-bottom: 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+.missionTitle {
+  font-family: var(--font-display);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ash-300, #a0a0a0);
+}
+.missionScore {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--paper);
+  font-variant-numeric: tabular-nums;
+}
+
+.objList { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.objItem { display: flex; gap: 8px; align-items: flex-start; opacity: 0.55; transition: opacity var(--dur-fast) ease; }
+.obj_active { opacity: 1; }
+.obj_satisfied { opacity: 1; }
+.obj_failed { opacity: 1; }
+
+.objMark {
+  flex: 0 0 auto;
+  width: 18px;
+  height: 18px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  font-size: 10px;
+  line-height: 1;
+}
+.obj_satisfied .objMark { background: #43a047; border-color: #43a047; color: #fff; }
+.obj_failed .objMark    { background: #d32f2f; border-color: #d32f2f; color: #fff; }
+.obj_active .objMark    { border-color: #40c4ff; color: #40c4ff; }
+
+.objBody { display: flex; flex-direction: column; gap: 4px; min-width: 0; flex: 1; }
+.objLabel { line-height: 1.35; word-break: break-word; }
+
+/* Progress bar — only rendered while a task is actively accruing. */
+.objBar { display: block; height: 2px; background: rgba(255, 255, 255, 0.16); overflow: hidden; }
+.objBarFill { display: block; height: 100%; background: #40c4ff; transition: width var(--dur-fast) linear; }
+.obj_satisfied .objBarFill { background: #43a047; }
+
+.missionDone { margin: 10px 0 0; color: #69f0ae; line-height: 1.5; }
+.missionExit {
+  display: block;
+  margin-top: 6px;
+  width: 100%;
+  padding: 6px 8px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  background: transparent;
+  color: var(--paper);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  cursor: pointer;
+  /* Re-enable clicks just for this control. */
+  pointer-events: auto;
+}
+.missionExit:hover { border-color: var(--paper); }
+
+.missionWarn { margin: 10px 0 0; color: #ffb74d; line-height: 1.5; }

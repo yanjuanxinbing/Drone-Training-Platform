@@ -110,6 +110,13 @@ export const api = {
 
   // Sim status
   simStatus: () => request<{ airsim_available: boolean }>("/api/sim/status"),
+
+  // Pixel Streaming (UE4.27 + Cirrus) entry point. Mirrors the
+  // `PIXEL_STREAMING_URL` constant in test.py at the repo root.
+  streamConfig: () =>
+    request<{ pixel_streaming_url: string; available: boolean }>(
+      "/api/sim/stream-config",
+    ),
 };
 
 export { API_BASE };

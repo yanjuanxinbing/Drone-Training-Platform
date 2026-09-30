@@ -3,7 +3,29 @@ from __future__ import annotations
 
 from typing import Dict, List, Optional
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
+
+
+class TaskRule(BaseModel):
+    """A machine-checkable training objective.
+
+    `kind` selects the predicate in `mission.RULES`; the remaining fields are
+    that predicate's parameters and are validated loosely so a new task kind
+    can be added without a schema change.
+    """
+
+    id: str
+    label: str = ""
+    kind: str = "reach"
+    points: float = 1.0
+    waypoint: Optional[str] = None
+    waypoints: List[str] = Field(default_factory=list)
+    sensor: Optional[str] = None
+    radius: Optional[float] = None
+    seconds: Optional[float] = None
+    target: Optional[float] = None
+    tolerance: Optional[float] = None
+    min_distance: Optional[float] = None
 
 
 class Scenario(BaseModel):
@@ -15,12 +37,14 @@ class Scenario(BaseModel):
     tagline_zh: str
     difficulty: str
     duration_minutes: int
-    objectives: List[str]
-    objectives_zh: List[str]
+    objectives: List[str] = Field(default_factory=list)
+    objectives_zh: List[str] = Field(default_factory=list)
     color: str
     accent: str
     icon: str
-    metrics: Dict
+    metrics: Dict = Field(default_factory=dict)
+    # Rule-based objectives. Optional so pre-migration scenarios still load.
+    tasks: List[TaskRule] = Field(default_factory=list)
 
 
 class ScenarioList(BaseModel):

@@ -50,15 +50,22 @@ def save_progress(slug: str, req: ProgressSave, user=Depends(get_current_user)):
     data = _load_progress()
     user_progress = data.setdefault(user["phone"], {})
     existing = user_progress.get(slug, {})
+
+    prev_best = int(existing.get("best_duration_seconds", 0) or 0)
+    # A duration of 0 means "unknown" (flight never started, or the run was
+    # too short to time). It must neither win a best time nor wipe an
+    # existing one.
+    this_run = int(req.duration_seconds or 0)
+    if prev_best > 0:
+        best_time = min(prev_best, this_run) if this_run > 0 else prev_best
+    else:
+        best_time = this_run
+
     entry = {
         "scenario_slug": slug,
         "attempts": existing.get("attempts", 0) + 1,
         "best_score": max(existing.get("best_score", 0), req.score),
-        "best_duration_seconds": (
-            existing.get("best_duration_seconds", 0)
-            if existing.get("best_duration_seconds", 0) > 0
-            else req.duration_seconds
-        ),
+        "best_duration_seconds": best_time,
         "completed": existing.get("completed", False) or req.completed,
         "last_played": datetime.datetime.now(tz=datetime.timezone.utc).isoformat(),
     }

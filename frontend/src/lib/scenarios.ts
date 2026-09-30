@@ -3,6 +3,33 @@
 
 export const SCENARIOS = [
   {
+    slug: "blocks",
+    name: "Blocks · Debug",
+    name_zh: "方块场 · 调试",
+    tagline: "AirSim Blocks environment for bridge & video-stream debugging.",
+    tagline_zh: "AirSim Blocks 调试环境，用于测试桥接与图传链路。",
+    difficulty: "Debug",
+    duration_minutes: 0,
+    objectives: [
+      "Confirm AirSim bridge reachability.",
+      "Verify camera frame stream end-to-end.",
+      "Probe telemetry + frame rate at idle.",
+    ],
+    objectives_zh: [
+      "确认 AirSim 桥接可达。",
+      "端到端验证相机图传流。",
+      "怠速下探测遥测与帧率。",
+    ],
+    metrics: {
+      max_altitude_m: 50,
+      wind_m_s: 0.0,
+      gps_quality: "debug",
+    },
+    color: "#0E0E0C",
+    accent: "#4ECDC4",
+    number: "00",
+  },
+  {
     slug: "urban",
     name: "Urban Skyline",
     name_zh: "城市楼宇",

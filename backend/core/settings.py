@@ -1,7 +1,6 @@
 """Application settings (env-driven)."""
 from __future__ import annotations
 
-import os
 from functools import lru_cache
 
 from pydantic_settings import BaseSettings, SettingsConfigDict
@@ -25,15 +24,13 @@ class Settings(BaseSettings):
         "http://localhost:3001",
     ]
 
-    # ProjectAirSim (UE 5.7)
-    airsim_ip: str = "127.0.0.1"               # legacy alias
-    airsim_port: int = 8989                    # legacy alias → port_topics
-    projectairsim_host: str = "127.0.0.1"
-    projectairsim_port_topics: int = 8989
-    projectairsim_port_services: int = 8990
-    projectairsim_scene: str = "scene_basic_drone.jsonc"
-    projectairsim_drone: str = "Drone1"
-    projectairsim_camera: str = "front_center"
+    # AirSim
+    airsim_ip: str = "127.0.0.1"
+    airsim_port: int = 41451
+
+    # UE4.27 Pixel Streaming (Cirrus) — points at the local signaling server.
+    # Default matches the convention used by `test.py` at the repo root.
+    pixel_streaming_url: str = "http://localhost/"
 
     # Map cache
     nfz_cache_ttl_seconds: int = 600
